@@ -2,6 +2,7 @@
 int START = 0;
 int GAME = 1;
 int END = 2;
+int WIN = 3;
 
 int TS;
 
@@ -22,7 +23,7 @@ int fanCountdown = 15000;
 int fanCountdownCheck;
 
 PImage iconImg;
-PImage tileImg, gameoverImg;
+PImage tileImg, gameoverImg, winImg;
 
 int fansQuarantined = 0;
 int peopleKilled = 0;
@@ -61,6 +62,7 @@ void setup() {
 
     tileImg = loadImage("assets/images/title.png");
     gameoverImg = loadImage("assets/images/gameover.png");
+    winImg = loadImage("assets/images/win.png");
 }
 
 void draw() {
@@ -181,16 +183,19 @@ boolean goodFanLocation(int tileX, int tileY) {
 }
 
 void setRandomFanToIrradiated() {
-
-    Fan fan;
-
-    do {
-        int randomIndex = int(random(0, fanList.size()));
-        fan = fanList.get(randomIndex);
-    } while (fan.irradiated || fan.quarantined);
-    
-    fan.irradiated = true;
-    activeFans++;
+    int randomOffset = int(random(fanList.size()));
+    boolean fansLeft = false;
+    for (int i = 0; i < fanList.size(); i++) {
+        if (!fanList.get( (i+randomOffset)%fanList.size() ).irradiated) {
+            if (!fanList.get( (i+randomOffset)%fanList.size() ).quarantined) {
+                fanList.get( (i+randomOffset)%fanList.size() ).irradiated = true;
+                fansLeft = true;
+                
+            }
+        }
+    }
+    if (!fansLeft) {currentScreen = WIN;}
+        
 }
 
 void addIrridatedFans() {
@@ -245,4 +250,8 @@ void drawStartScreen() {
 void drawEndScreen() {
 
     image(gameoverImg, 0, 0, screenWidth, screenHeight);
+}
+void drawWinScreen() {
+  
+  image(winImg, 0, 0, screenWidth, screenHeight);
 }
