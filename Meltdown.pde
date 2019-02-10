@@ -1,4 +1,6 @@
 
+import ddf.minim.*;
+
 int START = 0;
 int GAME = 1;
 int GAMEOVER = 2;
@@ -22,6 +24,9 @@ int numFans = 20;
 int fanCountdown = 15000;
 int fanCountdownCheck;
 
+Minim minim;
+AudioPlayer bgm;
+
 PImage iconImg;
 PImage tileImg, gameoverImg, winImg;
 
@@ -29,7 +34,7 @@ int fansQuarantined = 0;
 int peopleKilled = 0;
 int activeFans = 0;
 
-int startTime,endTime;
+int startTime, endTime;
 
 void setup() {
 
@@ -65,6 +70,10 @@ void setup() {
     tileImg = loadImage("assets/images/title.png");
     gameoverImg = loadImage("assets/images/gameover.png");
     winImg = loadImage("assets/images/win.png");
+
+    minim = new Minim(this);
+    bgm = minim.loadFile("assets/music/bgm.wav");
+    bgm.loop();
 }
 
 void draw() {
@@ -107,14 +116,16 @@ void draw() {
     text(round(frameRate) + "FPS", 4, 28);
 }
 
-float gameMouseX() {
+void stop() {
 
-    return mouseX - (width - screenWidth) / 2;
+    bgm.close();
 }
 
-float gameMouseY() {
+void keyReleased() {
 
-    return mouseY - (height - screenHeight) / 2;
+    if (keyCode == ESC) {
+        exit();
+    }
 }
 
 void mousePressed() {
@@ -132,6 +143,7 @@ void mousePressed() {
             if (activeFans == 0){
                 setRandomFanToIrradiated();
                 fanCountdown = 15000;
+              
             }
         }
     }
@@ -159,14 +171,24 @@ void addPersonAtRandomSpot() {
     personList.add(new Person(id, randomX, randomY, TS * 3 / 2, TS * 3 / 2, direction, 2));
 }
 
+float gameMouseX() {
+
+    return mouseX - (width - screenWidth) / 2;
+}
+
+float gameMouseY() {
+
+    return mouseY - (height - screenHeight) / 2;
+}
+
 void addFanAtRandomSpot() {
 
     float randomX;
     float randomY;
 
     do {
-      randomX = TS * int(random(1, map.w - 1));
-      randomY = TS * int(random(1, map.h - 1));
+        randomX = TS * int(random(1, map.w - 1));
+        randomY = TS * int(random(1, map.h - 1));
     } while (!goodFanLocation(int(randomX / TS),int(randomY / TS)));
 
     fanList.add(new Fan(randomX, randomY, 2 * TS, 2 * TS));
@@ -267,11 +289,11 @@ void drawStartScreen() {
 void drawGameoverScreen() {
 
     image(gameoverImg, 0, 0, screenWidth, screenHeight);
-    text("Fans quarantined: " + fansQuarantined, 8, height-32);
+    text("Fans quarantined: " + fansQuarantined, 8, height - 32);
 }
 
 void drawWinScreen() {
 
     image(winImg, 0, 0, screenWidth, screenHeight);
-    text("People alive: " + (numPeople-peopleKilled) + "      Time: " + (((endTime-startTime)/1000)/60) + ":" + nf((((endTime-startTime)/1000)%60),2), 8, height-32);
+    text("People alive: " + (numPeople - peopleKilled) + "      Time: " + (((endTime - startTime) / 1000) / 60) + ":" + nf((((endTime-startTime) / 1000) % 60), 2), 8, height - 32);
 }
