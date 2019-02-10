@@ -5,7 +5,7 @@ class Map {
     int HORIZONTAL = 1;
 
     int w, h;
-    ArrayList <IntList> terrain, fillTerrain;
+    ArrayList <IntList> terrain;
     ArrayList <PImage> tiles;
 
     float puddleOffset = 0;
@@ -13,7 +13,6 @@ class Map {
     Map(int _w, int _h) {
 
         terrain = new ArrayList();
-        fillTerrain = new ArrayList();
         tiles = new ArrayList();
         tiles.add(loadImage("assets/images/map/floor.png"));
         tiles.add(loadImage("assets/images/map/puddle.png"));
@@ -80,51 +79,43 @@ class Map {
     
     boolean checkMap() {
 
-        for (int i = 0; i < h; i++) {
+        for (int i = 0; i < w; i++) {
 
-            IntList tempRow = new IntList();
+            for (int j = 0; j < h; j++) {
 
-            for (int j = 0; j < w; j++) {
+                if (getTile(i,j) != 1) {
 
-                tempRow.append(getTile(j, i));
-            }
+                    fillMap(i, j);
+                    boolean noRooms = true;
 
-            fillTerrain.add(tempRow);
-        }
+                    for (int k = 0; k < w; k++) {
+                        
+                        for (int l = 0; l < h; l++) {
 
-        for (int i = 0; i < h; i++) {
-
-            for (int j = 0; j < w; j++) {
-
-                if (getTile(j, i) == 0) {
-                    checkMap_helperFill(j, i);
-                    continue;
+                            if (getTile(k, l) == 0) {
+                                noRooms = false;
+                            }
+                            if (getTile(k, l) == 2) {
+                                setTile(k, l, 0);
+                            }
+                        }
+                    }
+                    return noRooms;
                 }
             }
         }
-
-        for (int i = 0; i < h; i++) {
-
-            for (int j = 0; j < w; j++) {
-
-                if (fillTerrain.get(i).get(j) == 0) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return false;
     }
-    
-    void checkMap_helperFill(int tileX, int tileY) {
 
-        if (fillTerrain.get(tileY).get(tileX) == 0) {
+    void fillMap(int tileX, int tileY) {
 
-            fillTerrain.get(tileY).set(tileX, 1);
-            checkMap_helperFill((tileX - 1 + w) % w, tileY);
-            checkMap_helperFill(tileX, (tileY - 1 + h) % h);
-            checkMap_helperFill((tileX + 1 + w) % w, tileY);
-            checkMap_helperFill(tileX, (tileY + 1 + h) % h);
+        if (getTile(tileX, tileY) == 0) {
+
+            setTile(tileX, tileY, 2);
+            fillMap((tileX - 1 + w) % w, tileY);
+            fillMap(tileX, (tileY - 1 + h) % h);
+            fillMap((tileX + 1 + w) % w, tileY);
+            fillMap(tileX ,(tileY + 1 + h) % h);
         }
     }
 
