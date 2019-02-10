@@ -8,7 +8,7 @@ class Person {
 
     int id;
     float x, y;
-    float w, h;
+    int w, h;
     float direction;
     float speed;
 
@@ -32,7 +32,7 @@ class Person {
     int state = MOVING;
     int frame = 0, numFrames = 2;
 
-    Person(int _id, float _x, float _y, float _w, float _h, float _direction, float _speed) {
+    Person(int _id, float _x, float _y, int _w, int _h, float _direction, float _speed) {
 
         id = _id;
         x = _x;
@@ -63,10 +63,10 @@ class Person {
         }
 
         image(sprites[frame], imgX, imgY, w, h);
-        image(sprites[frame], imgX + width, imgY, w, h);
-        image(sprites[frame], imgX, imgY + height, w, h);
-        image(sprites[frame], imgX - width, imgY, w, h);
-        image(sprites[frame], imgX, imgY - height, w, h);
+        image(sprites[frame], imgX + screenWidth, imgY, w, h);
+        image(sprites[frame], imgX, imgY + screenHeight, w, h);
+        image(sprites[frame], imgX - screenWidth, imgY, w, h);
+        image(sprites[frame], imgX, imgY - screenHeight, w, h);
 
         tint(255, 255, 255);
     }
@@ -133,8 +133,8 @@ class Person {
             float dX = cos(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
             float dY = sin(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
 
-            float newX = (x + dX + width) % width;
-            float newY = (y + dY + height) % height;
+            float newX = (x + dX + screenWidth) % screenWidth;
+            float newY = (y + dY + screenHeight) % screenHeight;
 
             // if new position is impassable, change direction
             if (!map.passableCoordinate(newX, newY)) {

@@ -4,12 +4,12 @@ class Fan {
     PImage sprite, sprite2;
 
     float x, y;
-    float w, h;
+    int w, h;
     float angle, spinSpeed;
 
     boolean irradiated = false, quarantined = false;
 
-    Fan(float _x, float _y, float _w, float _h) {
+    Fan(float _x, float _y, int _w, int _h) {
 
         x = _x;
         y = _y;

@@ -97,10 +97,10 @@ class Map {
         }
     }
 
-    int getTile(int tileX, int tileY) {
+    //int getTile(int tileX, int tileY) {
 
-        return terrain.get(tileY).get(tileX);
-    }
+        //return terrain.get(tileY).get(tileX);
+    //}
 
     void setTile(int tileX, int tileY, int val) {
 
@@ -114,7 +114,9 @@ class Map {
 
             for (int j = 0; j < w; j++) {
 
-                int tile = getTile(j, i);
+                int tile = terrain.get(i).get(j);
+
+                //int tile = getTile(j, i);
 
                 if (tile == 1) {
                     image(tiles.get(tile), j * TS, i * TS + puddleOffset, TS, TS);
@@ -130,7 +132,9 @@ class Map {
 
             for (int j = 0; j < w; j++) {
 
-                int tile = getTile(j, i);
+                int tile = terrain.get(i).get(j);
+
+                //int tile = getTile(j, i);
 
                 if (tile != 1) {
                     image(tiles.get(tile), j * TS, i * TS, TS, TS);
@@ -144,7 +148,7 @@ class Map {
         int tileX = int(posX / TS);
         int tileY = int(posY / TS);
 
-        if (getTile(tileX, tileY) == 0) {
+        if (/*getTile(tileX, tileY)*/terrain.get(tileY).get(tileX) == 0) {
             return true;
         }
 

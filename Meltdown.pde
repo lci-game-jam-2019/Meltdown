@@ -3,9 +3,10 @@ int START = 0;
 int GAME = 1;
 int END = 2;
 
-float TS;
+int TS;
 
 int mapSize = 28;
+int screenWidth, screenHeight;
 
 int currentScreen = START;
 
@@ -32,14 +33,17 @@ void setup() {
     surface.setTitle("Meltdown");
     surface.setIcon(iconImg);
 
-    size(640, 640);
-    //fullScreen();
+    fullScreen();
     frameRate(30);
-    TS = float(width) / mapSize;
 
     noSmooth();
+    noStroke();
 
     map = new Map(mapSize, mapSize);
+
+    TS = height / mapSize;
+    screenWidth = map.w * TS;
+    screenHeight = map.h * TS;
 
     personList = new ArrayList();
     fanList = new ArrayList();
@@ -62,6 +66,10 @@ void draw() {
 
     surface.setTitle("Meltdown - " + round(frameRate) + "FPS");
 
+    pushMatrix();
+
+    translate((width - screenWidth) / 2, (height - screenHeight) / 2);
+
     if (currentScreen == START) {
 
         drawStartScreen();
@@ -78,6 +86,14 @@ void draw() {
 
         drawEndScreen();
     }
+
+    popMatrix();
+
+    fill(0, 0, 0);
+    rect(0, 0, width, (height - screenHeight) / 2);
+    rect(0, height, width, -(height - screenHeight) / 2);
+    rect(0, 0, (width - screenWidth) / 2, height);
+    rect(width, 0, -(width - screenWidth) / 2, height);
 }
 
 void mousePressed() {
@@ -109,8 +125,8 @@ void addPersonAtRandomSpot() {
     float randomX, randomY;
 
     do {
-        randomX = random(0, width);
-        randomY = random(0, height);
+        randomX = random(0, screenWidth);
+        randomY = random(0, screenHeight);
     } while (!map.passableCoordinate(randomX, randomY));
 
     personList.add(new Person(id, randomX, randomY, TS * 3 / 2, TS * 3 / 2, direction, 2));
@@ -118,8 +134,8 @@ void addPersonAtRandomSpot() {
 
 void addFanAtRandomSpot() {
 
-    float randomX = TS * int(random(1, map.w - 1));
-    float randomY = TS * int(random(1, map.h - 1));
+    int randomX = TS * int(random(1, map.w - 1));
+    int randomY = TS * int(random(1, map.h - 1));
 
     fanList.add(new Fan(randomX, randomY, 2 * TS, 2 * TS));
 }
@@ -171,10 +187,10 @@ void drawGameScreen() {
 
 void drawStartScreen() {
 
-    image(tileImg, 0, 0);
+    image(tileImg, 0, 0, screenWidth, screenHeight);
 }
 
 void drawEndScreen() {
 
-    image(gameoverImg, 0, 0);
+    image(gameoverImg, 0, 0, screenWidth, screenHeight);
 }
