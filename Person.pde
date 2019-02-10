@@ -13,7 +13,7 @@ class Person {
     float speed;
 
     int radiationDurationCheck;
-    int greenCountdown = 5000, deathCountdown = 7000;
+    int greenCountdown = 5000, deathCountdown = 10000;
 
     int animationDuration = 250, animationDurationCheck;
 
