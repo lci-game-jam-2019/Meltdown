@@ -70,6 +70,7 @@ class Fan {
         }
 
         quarantined = true;
+        fansQuarantined++;
 
         // (tileX, tileY) is the bottom-right corner
         int tileX = int(x / 32);
