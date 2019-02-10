@@ -80,7 +80,7 @@ class Person {
 
             if (peopleKilled == numPeople) {
 
-                currentScreen = END;
+                currentScreen = GAMEOVER;
                 return;
             }
         }

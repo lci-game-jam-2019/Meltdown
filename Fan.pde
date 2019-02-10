@@ -23,7 +23,8 @@ class Fan {
     }
     
     void updateRotation() {
-      angle = (angle + spinSpeed * (30 / frameRate)) % 360;
+
+        angle = (angle + spinSpeed * (30 / frameRate)) % 360;
     }
 
     void draw() {
@@ -67,13 +68,19 @@ class Fan {
 
         if (!irradiated) {
 
-            currentScreen = END;
+            currentScreen = GAMEOVER;
             return;
         }
 
         quarantined = true;
         fansQuarantined++;
         activeFans--;
+
+        if (fansQuarantined == numFans) {
+
+            currentScreen = WIN;
+            return;
+        }
 
         // (tileX, tileY) is the bottom-right corner
         int tileX = int(x / TS);

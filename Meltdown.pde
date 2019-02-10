@@ -1,7 +1,7 @@
 
 int START = 0;
 int GAME = 1;
-int END = 2;
+int GAMEOVER = 2;
 int WIN = 3;
 
 int TS;
@@ -16,8 +16,8 @@ ArrayList <Person> personList;
 ArrayList <Fan> fanList;
 
 int numUniquePeople = 11;
-int numPeople = 100;
-int numFans = 30;
+int numPeople = 1;
+int numFans = 1;
 
 int fanCountdown = 15000;
 int fanCountdownCheck;
@@ -85,9 +85,13 @@ void draw() {
         fill(255);
         text("People killed: " + peopleKilled + "      Fans quarantined:" + fansQuarantined + "      Active fans: " + activeFans, 8, 32);
     }
-    else if (currentScreen == END) {
+    else if (currentScreen == GAMEOVER) {
 
-        drawEndScreen();
+        drawGameoverScreen();
+    }
+    else if (currentScreen == WIN) {
+
+        drawWinScreen();
     }
 
     popMatrix();
@@ -140,7 +144,7 @@ void addPersonAtRandomSpot() {
     do {
         randomX = random(0, screenWidth);
         randomY = random(0, screenHeight);
-    } while (!map.passableCoordinate(randomX, randomY));
+    } while (!map.passableCoordinate(randomX, randomY));*
 
     personList.add(new Person(id, randomX, randomY, TS * 3 / 2, TS * 3 / 2, direction, 2));
 }
@@ -183,19 +187,20 @@ boolean goodFanLocation(int tileX, int tileY) {
 }
 
 void setRandomFanToIrradiated() {
-    int randomOffset = int(random(fanList.size()));
-    boolean fansLeft = false;
-    for (int i = 0; i < fanList.size(); i++) {
-        if (!fanList.get( (i+randomOffset)%fanList.size() ).irradiated) {
-            if (!fanList.get( (i+randomOffset)%fanList.size() ).quarantined) {
-                fanList.get( (i+randomOffset)%fanList.size() ).irradiated = true;
-                fansLeft = true;
-                
-            }
-        }
+
+    if (activeFans == numFans - fansQuarantined) {
+        return;
     }
-    if (!fansLeft) {currentScreen = WIN;}
-        
+
+    Fan fan;
+
+    do {
+        int randomIndex = int(random(0, fanList.size()));
+        fan = fanList.get(randomIndex);
+    } while (fan.irradiated || fan.quarantined);
+
+    fan.irradiated = true;
+    activeFans++;  
 }
 
 void addIrridatedFans() {
@@ -247,11 +252,12 @@ void drawStartScreen() {
     image(tileImg, 0, 0, screenWidth, screenHeight);
 }
 
-void drawEndScreen() {
+void drawGameoverScreen() {
 
     image(gameoverImg, 0, 0, screenWidth, screenHeight);
 }
+
 void drawWinScreen() {
-  
-  image(winImg, 0, 0, screenWidth, screenHeight);
+
+    image(winImg, 0, 0, screenWidth, screenHeight);
 }
