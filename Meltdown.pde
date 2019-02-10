@@ -18,7 +18,7 @@ int numUniquePeople = 11;
 int numPeople = 100;
 int numFans = 30;
 
-int fanCountdown = 50000;
+int fanCountdown = 15000;
 int fanCountdownCheck;
 
 PImage iconImg;
@@ -26,6 +26,7 @@ PImage tileImg, gameoverImg;
 
 int fansQuarantined = 0;
 int peopleKilled = 0;
+int activeFans = 0;
 
 void setup() {
 
@@ -80,7 +81,7 @@ void draw() {
 
         textSize(32);
         fill(255);
-        text("People killed: " + peopleKilled + "      Fans quarantined:" + fansQuarantined, 8, 32);
+        text("People killed: " + peopleKilled + "      Fans quarantined:" + fansQuarantined + "      Active fans: " + activeFans, 8, 32);
     }
     else if (currentScreen == END) {
 
@@ -160,6 +161,7 @@ void setRandomFanToIrradiated() {
     } while (fan.irradiated || fan.quarantined);
     
     fan.irradiated = true;
+    activeFans++;
 }
 
 void addIrridatedFans() {
@@ -178,6 +180,7 @@ void drawGameScreen() {
     map.draw();
 
     for (Fan fan : fanList) {
+        fan.updateRotation();
         fan.draw();
     }
 
@@ -192,6 +195,13 @@ void drawGameScreen() {
         person.move();
         person.irradiate();
         person.draw();
+    }
+    for (Fan fan : fanList) {
+      if (!fan.quarantined && fan.touchingCoordinate(gameMouseX(), gameMouseY())) {
+          tint(255,0,0);
+          fan.draw();
+          tint(255,255,255);
+      }
     }
 }
 

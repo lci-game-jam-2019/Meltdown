@@ -21,12 +21,14 @@ class Fan {
         sprite = loadImage("assets/images/map/fan.png");
         sprite2 = loadImage("assets/images/map/quarantine.png");
     }
+    
+    void updateRotation() {
+      angle = (angle + spinSpeed * (30 / frameRate)) % 360;
+    }
 
     void draw() {
 
         if (!quarantined) {
-
-            angle = (angle + spinSpeed * (30 / frameRate)) % 360;
 
             pushMatrix();
 
@@ -44,8 +46,8 @@ class Fan {
 
         if (irradiated) {
 
-            fill(255, 0, 0);
-            ellipse(x, y, 32, 32);
+            //fill(255, 0, 0);
+            //ellipse(x, y, 32, 32);
         }
     }
 
@@ -71,6 +73,7 @@ class Fan {
 
         quarantined = true;
         fansQuarantined++;
+        activeFans--;
 
         // (tileX, tileY) is the bottom-right corner
         int tileX = int(x / TS);
