@@ -225,12 +225,15 @@ void drawGameScreen() {
         person.irradiate();
         person.draw();
     }
+    
     for (Fan fan : fanList) {
-      if (!fan.quarantined && fan.touchingCoordinate(gameMouseX(), gameMouseY())) {
-          tint(255,0,0);
-          fan.draw();
-          tint(255,255,255);
-      }
+
+        if (!fan.quarantined && fan.touchingCoordinate(gameMouseX(), gameMouseY())) {
+
+            tint(255,0,0);
+            fan.draw();
+            tint(255,255,255);
+        }
     }
 }
 

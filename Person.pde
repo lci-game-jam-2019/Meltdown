@@ -13,7 +13,7 @@ class Person {
     float speed;
 
     int radiationDurationCheck;
-    int greenCountdown = 5000, deathCountdown = 10000;
+    int greenCountdown = 5000, deathCountdown = 8000;
 
     int animationDuration = 250, animationDurationCheck;
 
@@ -77,9 +77,11 @@ class Person {
 
             dead = true;
             peopleKilled++;
-            if (peopleKilled == numPeople){
-              currentScreen = END;
-              return;
+
+            if (peopleKilled == numPeople) {
+
+                currentScreen = END;
+                return;
             }
         }
     }
@@ -134,11 +136,12 @@ class Person {
         // move
         else if (state == MOVING) {
 
-            float dX = cos(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
-            float dY = sin(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
+            float dXYMultiplier = speed * (TS / 32.0) * (30.0 / frameRate);
+            float dX = cos(radians(direction)) * dXYMultiplier;
+            float dY = sin(radians(direction)) * dXYMultiplier;
             
-            dX = (9*dX + cos(tendDirection))/10;
-            dY = (9*dY + cos(tendDirection))/10;
+            dX = (9 * dX + cos(tendDirection)) / 10;
+            dY = (9 * dY + cos(tendDirection)) / 10;
 
             float newX = (x + dX + screenWidth) % screenWidth;
             float newY = (y + dY + screenHeight) % screenHeight;
@@ -179,8 +182,6 @@ class Person {
 
     float getRandomDirection() {
 
-        float newDirection = random(360);
-        newDirection = (newDirection + 360) % 360;
-        return newDirection;
+        return random(360);
     }
 }
