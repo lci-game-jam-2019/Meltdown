@@ -9,7 +9,7 @@ class Person {
     int id;
     float x, y;
     int w, h;
-    float direction;
+    float direction, tendDirection;
     float speed;
 
     int radiationDurationCheck;
@@ -39,6 +39,8 @@ class Person {
         h = _h;
         direction = _direction;
         speed = _speed;
+        
+        tendDirection = random(360);
 
         sprites = new PImage[numFrames];
         for (int i = 0; i < numFrames; i++) {
@@ -75,6 +77,10 @@ class Person {
 
             dead = true;
             peopleKilled++;
+            if (peopleKilled == numPeople){
+              currentScreen = END;
+              return;
+            }
         }
     }
 
@@ -130,6 +136,9 @@ class Person {
 
             float dX = cos(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
             float dY = sin(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
+            
+            dX = (9*dX + cos(tendDirection))/10;
+            dY = (9*dY + cos(tendDirection))/10;
 
             float newX = (x + dX + screenWidth) % screenWidth;
             float newY = (y + dY + screenHeight) % screenHeight;
