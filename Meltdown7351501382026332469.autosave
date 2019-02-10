@@ -157,7 +157,7 @@ boolean goodFan(int tileX, int tileY){
      return false;
    }
    for (Fan fan : fanList) {
-     if ((tileX==int(fan.x/TS) || tileX-1==int(fan.x/TS) || tileX+1==int(fan.x/TS)) && (tileY==int(fan.y/TS) || tileY-1==int(fan.y/TS) || tileY+1==int(fan.y/TS))){
+     if ((tileX==fan.x || tileX-1==fan.x || tileX+1==fan.x) && (tileY==fan.y || tileY-1==fan.y || tileY+1==fan.y)){
        return false;
      }
    }
@@ -165,12 +165,15 @@ boolean goodFan(int tileX, int tileY){
 }
 
 void addFanAtRandomSpot() {
-    float randomX = TS * int(random(1, map.w - 1));
-    float randomY = TS * int(random(1, map.h - 1));
-    while (!goodFan(int(randomX/TS),int(randomY/TS))){
+
+    int randomX = TS * int(random(1, map.w - 1));
+    int randomY = TS * int(random(1, map.h - 1));
+    
+    while (!goodFan(randomX,randomY)){
       randomX = TS * int(random(1, map.w - 1));
       randomY = TS * int(random(1, map.h - 1));
     }
+
     fanList.add(new Fan(randomX, randomY, 2 * TS, 2 * TS));
 }
 
