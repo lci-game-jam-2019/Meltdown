@@ -144,10 +144,10 @@ class Map {
         int tileX = int(posX / 32);
         int tileY = int(posY / 32);
 
-        if (getTile(tileX, tileY) == 1) {
-            return false;
+        if (getTile(tileX, tileY) == 0) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 }
