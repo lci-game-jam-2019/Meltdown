@@ -20,6 +20,10 @@ class Fan {
 
         sprite = loadImage("assets/images/map/fan.png");
         sprite2 = loadImage("assets/images/map/quarantine.png");
+
+        if (irradiated) {
+            activeFans++;
+        }
     }
     
     void updateRotation() {
