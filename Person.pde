@@ -23,8 +23,6 @@ class Person {
     int stopDuration, stopDurationCheck;
     int[] stopDurationRange = { 200, 500 };
 
-    int[] rotationRange = { 60, 60 };
-
     boolean irradiated = false;
     boolean green = false;
     boolean dead = false;
@@ -172,7 +170,7 @@ class Person {
 
     float getRandomDirection() {
 
-        float newDirection = random(direction + rotationRange[0], direction + rotationRange[1]);
+        float newDirection = random(360);
         newDirection = (newDirection + 360) % 360;
         return newDirection;
     }
