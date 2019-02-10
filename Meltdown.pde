@@ -17,7 +17,7 @@ ArrayList <Fan> fanList;
 
 int numUniquePeople = 11;
 int numPeople = 100;
-int numFans = 1;
+int numFans = 20;
 
 int fanCountdown = 15000;
 int fanCountdownCheck;
@@ -128,6 +128,12 @@ void mousePressed() {
             }
 
             fan.remove();
+            
+            if (activeFans == 0){
+                setRandomFanToIrradiated();
+                fanCountdown = 15000;
+              
+            }
         }
     }
 }
