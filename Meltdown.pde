@@ -203,7 +203,7 @@ void setRandomFanToIrradiated() {
     activeFans++;  
 }
 
-void addIrradiatedFans() {
+void addIrridatedFans() {
 
     if (millis() - fanCountdownCheck >= fanCountdown) {
 
@@ -214,7 +214,7 @@ void addIrradiatedFans() {
 
 void drawGameScreen() {
 
-    addIrradiatedFans();
+    addIrridatedFans();
 
     map.draw();
 

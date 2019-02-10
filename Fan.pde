@@ -1,7 +1,7 @@
 
 class Fan {
 
-    PImage sprite, sprite2;
+    PImage bladeSprite, gridSprite, quarantineSprite;
 
     float x, y;
     int w, h;
@@ -18,8 +18,9 @@ class Fan {
         
         spinSpeed = random(8, 16);
 
-        sprite = loadImage("assets/images/map/fan.png");
-        sprite2 = loadImage("assets/images/map/quarantine.png");
+        bladeSprite = loadImage("assets/images/map/fan-blade.png");
+        gridSprite = loadImage("assets/images/map/fan-grid.png");
+        quarantineSprite = loadImage("assets/images/map/fan-quarantine.png");
 
         if (irradiated) {
             activeFans++;
@@ -40,13 +41,15 @@ class Fan {
             translate(x, y);
             rotate(radians(angle));
             translate(-w / 2, -h / 2);
-            image(sprite, 0, 0, w, h);
+            image(bladeSprite, 0, 0, w, h);
 
             popMatrix();
+
+            image(gridSprite, x - w / 2, y - h / 2, w, h);
         }
         else {
 
-            image(sprite2, x - w / 2, y - h / 2, w, h);
+            image(quarantineSprite, x - w / 2, y - h / 2, w, h);
         }
 
         if (irradiated) {
