@@ -5,6 +5,7 @@ int START = 0;
 int GAME = 1;
 int GAMEOVER = 2;
 int WIN = 3;
+int INSTRUCTIONS = 4;
 
 int TS;
 
@@ -101,6 +102,18 @@ void draw() {
 
         drawWinScreen();
     }
+    else if (currentScreen == INSTRUCTIONS) {
+        
+      background(229, 226, 144);
+      
+      fill(0);
+      
+      text("You're the overseer of a bioweapon research facility, but an earthquake has opened holes in the floor through which toxic materials flow. " +
+          "Some fans on the ground are spreading toxins, and when a test subject touches them, they will turn green and die after some time. " +
+          "Try to determine which fans are contaminated, and quarantine them as soon as possible. " +
+          "Beware! Clicking on a safe fan will get you fired, as will allowing all test subjects to die. " +
+          "Good luck, my friend, and may your journey be a pleasant one.", 24, 48, screenWidth - 48, screenHeight);
+    }
 
     popMatrix();
 
@@ -149,8 +162,13 @@ void mousePressed() {
 }
 
 void mouseReleased() {
-
+  
     if (currentScreen == START) {
+      
+        currentScreen = INSTRUCTIONS;
+    }
+    else if (currentScreen == INSTRUCTIONS) {
+      
         currentScreen = GAME;
         bgm.loop();
         startTime = millis();
