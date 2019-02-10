@@ -19,6 +19,9 @@ int fanCountdownCheck;
 PImage iconImg;
 PImage tileImg, gameoverImg;
 
+int fansQuarantined = 0;
+int peopleKilled = 0;
+
 void setup() {
 
     iconImg = loadImage("assets/images/icon.png");
@@ -27,6 +30,8 @@ void setup() {
 
     size(896, 896);
     frameRate(30);
+
+    noSmooth();
 
     map = new Map(28, 28);
 
@@ -58,6 +63,10 @@ void draw() {
     else if (currentScreen == GAME) {
 
         drawGameScreen();
+
+        textSize(32);
+        fill(255);
+        text("People killed: " + peopleKilled + "      Fans quarantined:" + fansQuarantined, 8, 32);
     }
     else if (currentScreen == END) {
 

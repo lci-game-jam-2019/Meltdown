@@ -74,7 +74,9 @@ class Person {
     void die() {
 
         if (irradiated && millis() > radiationDurationCheck + deathCountdown) {
+
             dead = true;
+            peopleKilled++;
         }
     }
 
