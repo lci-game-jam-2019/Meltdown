@@ -17,7 +17,7 @@ ArrayList <Fan> fanList;
 
 int numUniquePeople = 11;
 int numPeople = 100;
-int numFans = 30;
+int numFans = 20;
 
 int fanCountdown = 15000;
 int fanCountdownCheck;
