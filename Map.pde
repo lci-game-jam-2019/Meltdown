@@ -8,7 +8,7 @@ class Map {
     ArrayList <IntList> terrain;
     ArrayList <PImage> tiles;
 
-    int puddleOffset = 0;
+    float puddleOffset = 0;
 
     Map(int _w, int _h) {
 
@@ -117,13 +117,13 @@ class Map {
                 int tile = getTile(j, i);
 
                 if (tile == 1) {
-                    image(tiles.get(tile), j * 32, i * 32 + puddleOffset, 32, 32);
-                    image(tiles.get(tile), j * 32, (i - 1) * 32 + puddleOffset, 32, 32);
+                    image(tiles.get(tile), j * TS, i * TS + puddleOffset, TS, TS);
+                    image(tiles.get(tile), j * TS, (i - 1) * TS + puddleOffset, TS, TS);
                 }
             }
         }
 
-        puddleOffset = (puddleOffset + 1) % 32;
+        puddleOffset = (puddleOffset + 1) % TS;
 
         // draw non-puddles
         for (int i = 0; i < h; i++) {
@@ -133,7 +133,7 @@ class Map {
                 int tile = getTile(j, i);
 
                 if (tile != 1) {
-                    image(tiles.get(tile), j * 32, i * 32, 32, 32);
+                    image(tiles.get(tile), j * TS, i * TS, TS, TS);
                 }
             }
         }
@@ -141,8 +141,8 @@ class Map {
 
     boolean passableCoordinate(float posX, float posY) {
 
-        int tileX = int(posX / 32);
-        int tileY = int(posY / 32);
+        int tileX = int(posX / TS);
+        int tileY = int(posY / TS);
 
         if (getTile(tileX, tileY) == 0) {
             return true;

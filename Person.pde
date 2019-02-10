@@ -8,7 +8,7 @@ class Person {
 
     int id;
     float x, y;
-    int w, h;
+    float w, h;
     float direction;
     float speed;
 
@@ -32,7 +32,7 @@ class Person {
     int state = MOVING;
     int frame = 0, numFrames = 2;
 
-    Person(int _id, float _x, float _y, int _w, int _h, float _direction, float _speed) {
+    Person(int _id, float _x, float _y, float _w, float _h, float _direction, float _speed) {
 
         id = _id;
         x = _x;
@@ -130,8 +130,8 @@ class Person {
         // move
         else if (state == MOVING) {
 
-            float dX = cos(radians(direction)) * speed * (30 / frameRate);
-            float dY = sin(radians(direction)) * speed * (30 / frameRate);
+            float dX = cos(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
+            float dY = sin(radians(direction)) * speed * (TS / 32.0) * (30.0 / frameRate);
 
             float newX = (x + dX + width) % width;
             float newY = (y + dY + height) % height;

@@ -3,6 +3,10 @@ int START = 0;
 int GAME = 1;
 int END = 2;
 
+float TS;
+
+int mapSize = 28;
+
 int currentScreen = START;
 
 Map map;
@@ -28,12 +32,14 @@ void setup() {
     surface.setTitle("Meltdown");
     surface.setIcon(iconImg);
 
-    size(896, 896);
+    size(640, 640);
+    //fullScreen();
     frameRate(30);
+    TS = float(width) / mapSize;
 
     noSmooth();
 
-    map = new Map(28, 28);
+    map = new Map(mapSize, mapSize);
 
     personList = new ArrayList();
     fanList = new ArrayList();
@@ -107,15 +113,15 @@ void addPersonAtRandomSpot() {
         randomY = random(0, height);
     } while (!map.passableCoordinate(randomX, randomY));
 
-    personList.add(new Person(id, randomX, randomY, 48, 48, direction, 2));
+    personList.add(new Person(id, randomX, randomY, TS * 3 / 2, TS * 3 / 2, direction, 2));
 }
 
 void addFanAtRandomSpot() {
 
-    int randomX = 32 * int(random(1, map.w - 1));
-    int randomY = 32 * int(random(1, map.h - 1));
+    float randomX = TS * int(random(1, map.w - 1));
+    float randomY = TS * int(random(1, map.h - 1));
 
-    fanList.add(new Fan(randomX, randomY, 64, 64));
+    fanList.add(new Fan(randomX, randomY, 2 * TS, 2 * TS));
 }
 
 void setRandomFanToIrradiated() {

@@ -4,12 +4,12 @@ class Fan {
     PImage sprite, sprite2;
 
     float x, y;
-    int w, h;
+    float w, h;
     float angle, spinSpeed;
 
     boolean irradiated = false, quarantined = false;
 
-    Fan(float _x, float _y, int _w, int _h) {
+    Fan(float _x, float _y, float _w, float _h) {
 
         x = _x;
         y = _y;
@@ -73,8 +73,8 @@ class Fan {
         fansQuarantined++;
 
         // (tileX, tileY) is the bottom-right corner
-        int tileX = int(x / 32);
-        int tileY = int(y / 32);
+        int tileX = int(x / TS);
+        int tileY = int(y / TS);
 
         map.setTile(tileX - 1, tileY - 1, 2);
         map.setTile(tileX - 1, tileY, 2);
