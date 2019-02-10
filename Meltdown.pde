@@ -67,8 +67,6 @@ void setup() {
 
 void draw() {
 
-    surface.setTitle("Meltdown - " + round(frameRate) + "FPS");
-
     pushMatrix();
 
     translate((width - screenWidth) / 2, (height - screenHeight) / 2);
@@ -101,6 +99,10 @@ void draw() {
     rect(0, height, width, -(height - screenHeight) / 2);
     rect(0, 0, (width - screenWidth) / 2, height);
     rect(width, 0, -(width - screenWidth) / 2, height);
+
+    fill(255);
+    textSize(24);
+    text(round(frameRate) + "FPS", 4, 28);
 }
 
 float gameMouseX() {
