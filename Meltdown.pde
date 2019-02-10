@@ -16,8 +16,8 @@ ArrayList <Person> personList;
 ArrayList <Fan> fanList;
 
 int numUniquePeople = 11;
-int numPeople = 1;
-int numFans = 1;
+int numPeople = 100;
+int numFans = 30;
 
 int fanCountdown = 15000;
 int fanCountdownCheck;
@@ -144,7 +144,7 @@ void addPersonAtRandomSpot() {
     do {
         randomX = random(0, screenWidth);
         randomY = random(0, screenHeight);
-    } while (!map.passableCoordinate(randomX, randomY));*
+    } while (!map.passableCoordinate(randomX, randomY));
 
     personList.add(new Person(id, randomX, randomY, TS * 3 / 2, TS * 3 / 2, direction, 2));
 }
