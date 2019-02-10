@@ -44,8 +44,8 @@ class Fan {
 
         if (irradiated) {
 
-            //fill(255, 0, 0);
-            //ellipse(x, y, 32, 32);
+            fill(255, 0, 0);
+            ellipse(x, y, 32, 32);
         }
     }
 
@@ -59,7 +59,7 @@ class Fan {
 
     void remove() {
 
-        if (!touchingCoordinate(mouseX, mouseY)) {
+        if (!touchingCoordinate(gameMouseX(), gameMouseY())) {
             return;
         }
 

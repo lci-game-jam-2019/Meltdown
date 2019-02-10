@@ -96,6 +96,16 @@ void draw() {
     rect(width, 0, -(width - screenWidth) / 2, height);
 }
 
+float gameMouseX() {
+
+    return mouseX - (width - screenWidth) / 2;
+}
+
+float gameMouseY() {
+
+    return mouseY - (height - screenHeight) / 2;
+}
+
 void mousePressed() {
 
     if (currentScreen == GAME) {
