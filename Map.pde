@@ -8,7 +8,9 @@ class Map {
     ArrayList <IntList> terrain;
     ArrayList <PImage> tiles;
 
-    float puddleOffset = 0;
+    PImage parallaxImg;
+
+    float parallaxOffset = 0;
 
     Map(int _w, int _h) {
 
@@ -17,6 +19,8 @@ class Map {
         tiles.add(loadImage("assets/images/map/floor.png"));
         tiles.add(loadImage("assets/images/map/puddle.png"));
         tiles.add(loadImage("assets/images/map/quarantine.png"));
+
+        parallaxImg = loadImage("assets/images/map/parallax.png");
 
         w = _w;
         h = _h;
@@ -152,25 +156,19 @@ class Map {
         terrain.get(tileY).set(tileX, val);
     }
 
-    void draw() {
+    void updateParallax() {
 
-        // draw puddles
-        for (int i = 0; i < h; i++) {
+        parallaxOffset = (parallaxOffset + 1 * (30 / frameRate)) % screenHeight;
+    }
 
-            for (int j = 0; j < w; j++) {
+    void drawParallax() {
 
-                int tile = getTile(j, i);
+        image(parallaxImg, 0, parallaxOffset, screenWidth, screenHeight);
+        image(parallaxImg, 0, parallaxOffset - screenHeight, screenWidth, screenHeight);
+    }
 
-                if (tile == 1) {
-                    image(tiles.get(tile), j * TS, i * TS + puddleOffset, TS, TS);
-                    image(tiles.get(tile), j * TS, (i - 1) * TS + puddleOffset, TS, TS);
-                }
-            }
-        }
+    void drawTerrain() {
 
-        puddleOffset = (puddleOffset + 1) % TS;
-
-        // draw non-puddles
         for (int i = 0; i < h; i++) {
 
             for (int j = 0; j < w; j++) {
@@ -178,7 +176,7 @@ class Map {
                 int tile = getTile(j, i);
 
                 if (tile != 1) {
-                    image(tiles.get(tile), j * TS, i * TS, TS, TS);
+                    image(tiles.get(tile), j * TS, i * TS, TS, TS * 2);
                 }
             }
         }

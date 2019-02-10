@@ -218,7 +218,9 @@ void drawGameScreen() {
 
     addIrradiatedFans();
 
-    map.draw();
+    map.updateParallax();
+    map.drawParallax();
+    map.drawTerrain();
 
     for (Fan fan : fanList) {
         fan.updateRotation();
