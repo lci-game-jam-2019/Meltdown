@@ -15,7 +15,7 @@ ArrayList <Person> personList;
 ArrayList <Fan> fanList;
 
 int numUniquePeople = 11;
-int numPeople = 1;
+int numPeople = 100;
 int numFans = 30;
 
 int fanCountdown = 15000;
