@@ -83,7 +83,7 @@ void draw() {
 
         textSize(24);
         fill(255);
-        text("People killed: " + peopleKilled + "      Fans quarantined:" + fansQuarantined + "      Active fans: " + activeFans, 8, 32);
+        text("People killed: " + peopleKilled + "      Fans quarantined: " + fansQuarantined + "      Active fans: " + activeFans, 8, 32);
     }
     else if (currentScreen == GAMEOVER) {
 
@@ -132,7 +132,6 @@ void mousePressed() {
             if (activeFans == 0){
                 setRandomFanToIrradiated();
                 fanCountdown = 15000;
-              
             }
         }
     }
