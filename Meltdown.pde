@@ -17,7 +17,7 @@ ArrayList <Fan> fanList;
 
 int numUniquePeople = 11;
 int numPeople = 100;
-int numFans = 20;
+int numFans = 1;
 
 int fanCountdown = 15000;
 int fanCountdownCheck;
@@ -28,6 +28,8 @@ PImage tileImg, gameoverImg, winImg;
 int fansQuarantined = 0;
 int peopleKilled = 0;
 int activeFans = 0;
+
+int startTime,endTime;
 
 void setup() {
 
@@ -134,6 +136,7 @@ void mouseReleased() {
 
     if (currentScreen == START) {
         currentScreen = GAME;
+        startTime = millis();
     }
 }
 
@@ -259,9 +262,11 @@ void drawStartScreen() {
 void drawGameoverScreen() {
 
     image(gameoverImg, 0, 0, screenWidth, screenHeight);
+    text("Fans quarantined: " + fansQuarantined, 8, height-32);
 }
 
 void drawWinScreen() {
 
     image(winImg, 0, 0, screenWidth, screenHeight);
+    text("People alive: " + (numPeople-peopleKilled) + "      Time: " + (((endTime-startTime)/1000)/60) + ":" + nf((((endTime-startTime)/1000)%60),2), 8, height-32);
 }

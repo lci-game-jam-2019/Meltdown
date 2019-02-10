@@ -86,6 +86,7 @@ class Fan {
         if (fansQuarantined == numFans) {
 
             currentScreen = WIN;
+            endTime = millis();
             return;
         }
 
