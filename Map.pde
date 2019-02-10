@@ -5,7 +5,7 @@ class Map {
     int HORIZONTAL = 1;
 
     int w, h;
-    ArrayList <IntList> terrain;
+    ArrayList <IntList> terrain, fillTerrain;
     ArrayList <PImage> tiles;
 
     float puddleOffset = 0;
@@ -13,6 +13,7 @@ class Map {
     Map(int _w, int _h) {
 
         terrain = new ArrayList();
+        fillTerrain = new ArrayList();
         tiles = new ArrayList();
         tiles.add(loadImage("assets/images/map/floor.png"));
         tiles.add(loadImage("assets/images/map/puddle.png"));
@@ -79,9 +80,6 @@ class Map {
     
     boolean checkMap() {
 
-        // create temporary terrain
-        ArrayList <IntList> tempTerrain = new ArrayList();
-
         for (int i = 0; i < h; i++) {
 
             IntList tempRow = new IntList();
@@ -91,7 +89,7 @@ class Map {
                 tempRow.append(getTile(j, i));
             }
 
-            tempTerrain.add(tempRow);
+            fillTerrain.add(tempRow);
         }
 
         for (int i = 0; i < h; i++) {
@@ -99,7 +97,7 @@ class Map {
             for (int j = 0; j < w; j++) {
 
                 if (getTile(j, i) == 0) {
-                    checkMap_helperFill(tempTerrain, j, i);
+                    checkMap_helperFill(j, i);
                     continue;
                 }
             }
@@ -109,7 +107,7 @@ class Map {
 
             for (int j = 0; j < w; j++) {
 
-                if (tempTerrain.get(i).get(j) == 0) {
+                if (fillTerrain.get(i).get(j) == 0) {
                     return false;
                 }
             }
@@ -118,15 +116,15 @@ class Map {
         return true;
     }
     
-    void checkMap_helperFill(ArrayList <IntList> tempTerrain, int tileX, int tileY) {
+    void checkMap_helperFill(int tileX, int tileY) {
 
-        if (tempTerrain.get(tileY).get(tileX) == 0) {
+        if (fillTerrain.get(tileY).get(tileX) == 0) {
 
-            tempTerrain.get(tileY).set(tileX, 1);
-            checkMap_helperFill(tempTerrain, (tileX - 1 + w) % w, tileY);
-            checkMap_helperFill(tempTerrain, tileX, (tileY - 1 + h) % h);
-            checkMap_helperFill(tempTerrain, (tileX + 1 + w) % w, tileY);
-            checkMap_helperFill(tempTerrain, tileX, (tileY + 1 + h) % h);
+            fillTerrain.get(tileY).set(tileX, 1);
+            checkMap_helperFill((tileX - 1 + w) % w, tileY);
+            checkMap_helperFill(tileX, (tileY - 1 + h) % h);
+            checkMap_helperFill((tileX + 1 + w) % w, tileY);
+            checkMap_helperFill(tileX, (tileY + 1 + h) % h);
         }
     }
 
