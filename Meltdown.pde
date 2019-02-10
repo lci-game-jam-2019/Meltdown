@@ -79,7 +79,7 @@ void draw() {
 
         drawGameScreen();
 
-        textSize(32);
+        textSize(24);
         fill(255);
         text("People killed: " + peopleKilled + "      Fans quarantined:" + fansQuarantined + "      Active fans: " + activeFans, 8, 32);
     }
@@ -143,35 +143,41 @@ void addPersonAtRandomSpot() {
     personList.add(new Person(id, randomX, randomY, TS * 3 / 2, TS * 3 / 2, direction, 2));
 }
 
-boolean goodFan(int tileX, int tileY){
-   if (map.getTile(tileX - 1, tileY - 1)==1){
-     return false;
-   }
-   if (map.getTile(tileX, tileY - 1)==1){
-     return false;
-   }
-   if (map.getTile(tileX - 1, tileY)==1){
-     return false;
-   }
-   if (map.getTile(tileX, tileY)==1){
-     return false;
-   }
-   for (Fan fan : fanList) {
-     if ((tileX==int(fan.x/TS) || tileX-1==int(fan.x/TS) || tileX+1==int(fan.x/TS)) && (tileY==int(fan.y/TS) || tileY-1==int(fan.y/TS) || tileY+1==int(fan.y/TS))){
-       return false;
-     }
-   }
-   return true;
-}
-
 void addFanAtRandomSpot() {
-    float randomX = TS * int(random(1, map.w - 1));
-    float randomY = TS * int(random(1, map.h - 1));
-    while (!goodFan(int(randomX/TS),int(randomY/TS))){
+
+    float randomX;
+    float randomY;
+
+    do {
       randomX = TS * int(random(1, map.w - 1));
       randomY = TS * int(random(1, map.h - 1));
-    }
+    } while (!goodFanLocation(int(randomX / TS),int(randomY / TS)));
+
     fanList.add(new Fan(randomX, randomY, 2 * TS, 2 * TS));
+}
+
+boolean goodFanLocation(int tileX, int tileY) {
+
+    if (map.getTile(tileX - 1, tileY - 1) != 0) {
+        return false;
+    }
+    if (map.getTile(tileX, tileY - 1) != 0) {
+        return false;
+    }
+    if (map.getTile(tileX - 1, tileY) != 0) {
+        return false;
+    }
+    if (map.getTile(tileX, tileY) != 0) {
+        return false;
+    }
+
+    for (Fan fan : fanList) {
+        
+        if (abs(tileX - int(fan.x / TS)) <= 1 && abs(tileY - int(fan.y / TS)) <= 1) {
+            return false;
+        }
+    }
+    return true;
 }
 
 void setRandomFanToIrradiated() {

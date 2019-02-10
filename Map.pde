@@ -26,87 +26,107 @@ class Map {
 
     void proceduralGeneration() {
       
-      do{
+        do {
 
-        terrain.clear();
+            terrain.clear();
 
-        // create blank map
+            // create blank map
+            for (int i = 0; i < h; i++) {
+
+                IntList row = new IntList();
+
+                for (int j = 0; j < w; j++) {
+                    row.append(0);
+                }
+
+                terrain.add(row);
+            }
+
+            IntList hWalls = new IntList();
+            IntList vWalls = new IntList();
+
+            int buffer = 4;  // maximum width of corridor - 1
+
+            // draw horizontal walls
+            for (int i = 0; i < 4; i++) {
+
+                int randomX = randomWallPos(w, buffer);
+                int randomY;
+
+                do {
+                    randomY = randomWallPos(h, buffer);
+                } while(hWalls.hasValue(randomY));
+
+                hWalls.append(randomY);
+                addWall(HORIZONTAL, randomX, randomY, int(random(2, 4)) * buffer + 1);
+            }
+
+            // draw vertical walls
+            for (int i = 0; i < 4; i++) {
+
+                int randomX;
+                int randomY = randomWallPos(w, buffer);
+
+                do {
+                    randomX = randomWallPos(h, buffer);
+                } while(vWalls.hasValue(randomX));
+
+                vWalls.append(randomX);
+                addWall(VERTICAL, randomX, randomY, int(random(2, 4)) * buffer + 1);
+            }
+        } while (!checkMap());
+    }
+    
+    boolean checkMap() {
+
+        // create temporary terrain
+        ArrayList <IntList> tempTerrain = new ArrayList();
+
         for (int i = 0; i < h; i++) {
 
-            IntList row = new IntList();
+            IntList tempRow = new IntList();
 
             for (int j = 0; j < w; j++) {
-                row.append(0);
+
+                tempRow.append(getTile(j, i));
             }
 
-            terrain.add(row);
+            tempTerrain.add(tempRow);
         }
 
-        IntList hWalls = new IntList();
-        IntList vWalls = new IntList();
+        for (int i = 0; i < h; i++) {
 
-        int buffer = 4;  // maximum width of corridor - 1
-    
-        // draw horizontal walls
-        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < w; j++) {
 
-            int randomX = randomWallPos(w, buffer);
-            int randomY;
-
-            do {
-                randomY = randomWallPos(h, buffer);
-            } while(hWalls.hasValue(randomY));
-
-            hWalls.append(randomY);
-            addWall(HORIZONTAL, randomX, randomY, int(random(2, 4)) * buffer + 1);
-        }
-
-        // draw vertical walls
-        for (int i = 0; i < 4; i++) {
-
-            int randomX;
-            int randomY = randomWallPos(w, buffer);
-
-            do {
-                randomX = randomWallPos(h, buffer);
-            } while(vWalls.hasValue(randomX));
-
-            vWalls.append(randomX);
-            addWall(VERTICAL, randomX, randomY, int(random(2, 4)) * buffer + 1);
-        }
-      } while (!checkMap());
-    }
-    
-    boolean checkMap(){
-      for (int i=0; i<w; i++){
-        for (int j=0; j<h; j++){
-          if (getTile(i,j)!=1){
-            fillMap(i,j);
-            boolean noRooms = true;
-            for (int k=0; k<w; k++){
-              for (int l=0; l<h; l++){
-                if (getTile(k,l)==0){
-                  noRooms=false;
+                if (getTile(j, i) == 0) {
+                    checkMap_helperFill(tempTerrain, j, i);
+                    continue;
                 }
-                if (getTile(k,l)==2){
-                  setTile(k,l,0);
-                }
-              }
             }
-            return noRooms;
-          }
         }
-      }
-      return false;
+
+        for (int i = 0; i < h; i++) {
+
+            for (int j = 0; j < w; j++) {
+
+                if (tempTerrain.get(i).get(j) == 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
     
-    void fillMap(int tileX,int tileY){
-        if (getTile(tileX,tileY) == 0){
-          setTile(tileX,tileY,2);
-          fillMap((tileX-1+w)%w,tileY);
-          fillMap(tileX,(tileY-1+h)%h);
-          fillMap((tileX+1+w)%w,tileY);
-          fillMap(tileX,(tileY+1+h)%h);
+    void checkMap_helperFill(ArrayList <IntList> tempTerrain, int tileX, int tileY) {
+
+        if (tempTerrain.get(tileY).get(tileX) == 0) {
+
+            tempTerrain.get(tileY).set(tileX, 1);
+            checkMap_helperFill(tempTerrain, (tileX - 1 + w) % w, tileY);
+            checkMap_helperFill(tempTerrain, tileX, (tileY - 1 + h) % h);
+            checkMap_helperFill(tempTerrain, (tileX + 1 + w) % w, tileY);
+            checkMap_helperFill(tempTerrain, tileX, (tileY + 1 + h) % h);
         }
     }
 
