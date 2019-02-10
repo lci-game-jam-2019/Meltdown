@@ -137,7 +137,7 @@ class Person {
             float newY = (y + dY + screenHeight) % screenHeight;
 
             // if new position is impassable, change direction
-            if (!map.passableCoordinate(newX, newY)) {
+            if (!map.passableCoordinate(newX, newY) && map.passableCoordinate(x, y)) {
 
                 direction = getRandomDirection();
                 return;
