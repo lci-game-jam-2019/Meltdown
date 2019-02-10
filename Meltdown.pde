@@ -152,9 +152,10 @@ void mousePressed() {
 
             fan.remove();
             
-            if (activeFans == 0){
+            if (activeFans == 0) {
+                
                 setRandomFanToIrradiated();
-                fanCountdown = 15000;
+                fanCountdownCheck = millis();
               
             }
         }
