@@ -81,6 +81,8 @@ class Person {
             if (peopleKilled == numPeople) {
 
                 currentScreen = GAMEOVER;
+                bgm.pause();
+                ansonMusic.loop();
                 return;
             }
         }

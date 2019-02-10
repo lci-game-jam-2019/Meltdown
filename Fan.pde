@@ -76,6 +76,8 @@ class Fan {
         if (!irradiated) {
 
             currentScreen = GAMEOVER;
+            bgm.pause();
+            ansonMusic.loop();
             return;
         }
 
@@ -86,6 +88,7 @@ class Fan {
         if (fansQuarantined == numFans) {
 
             currentScreen = WIN;
+            bgm.pause();
             endTime = millis();
             return;
         }

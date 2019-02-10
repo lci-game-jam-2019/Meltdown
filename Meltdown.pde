@@ -25,7 +25,7 @@ int fanCountdown = 15000;
 int fanCountdownCheck;
 
 Minim minim;
-AudioPlayer bgm;
+AudioPlayer bgm, ansonMusic;
 
 PImage iconImg;
 PImage tileImg, gameoverImg, winImg;
@@ -73,7 +73,7 @@ void setup() {
 
     minim = new Minim(this);
     bgm = minim.loadFile("assets/music/bgm.wav");
-    bgm.loop();
+    ansonMusic = minim.loadFile("assets/music/ansonMusic.mp3");
 }
 
 void draw() {
@@ -95,7 +95,6 @@ void draw() {
         text("People killed: " + peopleKilled + "      Fans quarantined: " + fansQuarantined + "      Active fans: " + activeFans, 8, 32);
     }
     else if (currentScreen == GAMEOVER) {
-
         drawGameoverScreen();
     }
     else if (currentScreen == WIN) {
@@ -117,8 +116,8 @@ void draw() {
 }
 
 void stop() {
-
     bgm.close();
+    ansonMusic.close();
 }
 
 void keyReleased() {
@@ -153,6 +152,7 @@ void mouseReleased() {
 
     if (currentScreen == START) {
         currentScreen = GAME;
+        bgm.loop();
         startTime = millis();
     }
 }
