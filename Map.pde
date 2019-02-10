@@ -25,6 +25,8 @@ class Map {
     }
 
     void proceduralGeneration() {
+      
+      do{
 
         terrain.clear();
 
@@ -71,6 +73,40 @@ class Map {
 
             vWalls.append(randomX);
             addWall(VERTICAL, randomX, randomY, int(random(2, 4)) * buffer + 1);
+        }
+      } while (!checkMap());
+    }
+    
+    boolean checkMap(){
+      for (int i=0; i<w; i++){
+        for (int j=0; j<h; j++){
+          if (getTile(i,j)!=1){
+            fillMap(i,j);
+            boolean noRooms = true;
+            for (int k=0; k<w; k++){
+              for (int l=0; l<h; l++){
+                if (getTile(k,l)==0){
+                  noRooms=false;
+                }
+                if (getTile(k,l)==2){
+                  setTile(k,l,0);
+                }
+              }
+            }
+            return noRooms;
+          }
+        }
+      }
+      return false;
+    }
+    
+    void fillMap(int tileX,int tileY){
+        if (getTile(tileX,tileY) == 0){
+          setTile(tileX,tileY,2);
+          fillMap((tileX-1+w)%w,tileY);
+          fillMap(tileX,(tileY-1+h)%h);
+          fillMap((tileX+1+w)%w,tileY);
+          fillMap(tileX,(tileY+1+h)%h);
         }
     }
 
