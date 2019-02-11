@@ -16,7 +16,7 @@ Our Entry for the Lisgar Collegiate Institute 2019 Game Jam.
 
 ### Running the Project
 
-1. Open ``Meltdpwn.pde`` with Processing
+1. Open ``Meltdown.pde`` with Processing
 2. Click the **button with the triangle** to run
 
 ### Authors
